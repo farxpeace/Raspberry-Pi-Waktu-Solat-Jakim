@@ -22,6 +22,8 @@ class MY_Controller extends CI_Controller {
     
     public $db_name_info = 'jakim_information';
     public $db_name_config = 'config';
+    
+    public $Player;
     function __construct() {
         parent::__construct();
         $this->sleek_db_data_dir = APPPATH.'third_party/SleekDB/databases';
@@ -55,6 +57,11 @@ class MY_Controller extends CI_Controller {
         $this->data['info'] = $jakim_information;
         
         
+    }
+    
+    function detect_player_available(){
+        //omxplayer
+        //shell_exec('ls')
     }
     
     function initialize_config(){

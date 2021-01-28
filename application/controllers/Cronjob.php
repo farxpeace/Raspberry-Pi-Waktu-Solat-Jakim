@@ -41,13 +41,13 @@ class Cronjob extends MY_Controller {
         $allowed_zone = $this->DbInfo->fetch()[0]['list_all_zone'];
         
         $zone_name = "";
-        if(isset($this->ConfigDB->fetch()[0]['selected_zone'])){
-            $zone_name = $this->ConfigDB->fetch()[0]['selected_zone'];
+        if(isset($this->DbInfo->fetch()[0]['selected_zone'])){
+            $zone_name = $this->DbInfo->fetch()[0]['selected_zone'];
         }else{
             $error['selected_zone'] = "Please select zone first";
         }
         
-        if((isset($this->ConfigDB->fetch()[0]['selected_zone'])) && (!in_array($this->ConfigDB->fetch()[0]['selected_zone'], $allowed_zone))){
+        if((isset($this->DbInfo->fetch()[0]['selected_zone'])) && (!in_array($this->DbInfo->fetch()[0]['selected_zone'], $allowed_zone))){
             $error['selected_zone'] = "Selected zone not matching with allowed zone";
         }
 
@@ -76,7 +76,7 @@ class Cronjob extends MY_Controller {
         $output['dttm_add'] = $dttm_add;
         
         if(count($error) == 0){
-            //$zone_name = $this->ConfigDB->fetch()[0]['selected_zone'];
+            //$zone_name = $this->DbInfo->fetch()[0]['selected_zone'];
             $prayer_detail = $prayer_detail_from_db[0];
             
             //update run_status to success

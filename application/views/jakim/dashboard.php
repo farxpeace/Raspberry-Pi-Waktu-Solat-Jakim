@@ -16,6 +16,7 @@
     <link href="<?php echo base_url(); ?>assets/vendor/fontawesome/css/fontawesome.min.css" rel="stylesheet">
     <link href="<?php echo base_url(); ?>assets/vendor/fontawesome/css/solid.min.css" rel="stylesheet">
     <link href="<?php echo base_url(); ?>assets/vendor/fontawesome/css/brands.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="<?php echo base_url(); ?>assets/vendor/icomoon-v1.0/style.css">
     <link href="<?php echo base_url(); ?>assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="<?php echo base_url(); ?>assets/css/master.css" rel="stylesheet">
     <link href="<?php echo base_url(); ?>assets/vendor/chartsjs/Chart.min.css" rel="stylesheet">
@@ -131,7 +132,7 @@
                                             <select class="form-control" name="selected_zone" id="selected_zone">
                                                 <option value="0">Please select your zone</option>
                                                 <?php foreach($info['list_all_zone'] as $a => $b){ ?>
-                                                <option value="<?php echo $b; ?>" <?php if($config['selected_zone'] == $b){ echo "selected"; } ?>><?php echo $b; ?></option>
+                                                <option value="<?php echo $b; ?>" <?php if($info['selected_zone'] == $b){ echo "selected"; } ?>><?php echo $b; ?></option>
                                                 <?php } ?>
                                             </select>
                                             
@@ -144,7 +145,7 @@
                     </div>
                     
                     <div class="row">
-                        <div class="col-sm-12 col-md-8 col-lg-8 mt-3">
+                        <div class="col-sm-12 col-md-6 col-lg-6 mt-3">
                             
                             <div class="card">
                                 <div class="content">
@@ -204,6 +205,39 @@
                             </div>
                             
                             
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-lg-6 mt-3">
+                            <div class="card">
+                                <div class="content">
+                                    <div class="head">
+                                        <h5 class="mb-0">Media Player</h5>
+                                        <p class="text-muted">Raspberry Pi Media Player</p>
+                                    </div>
+                                    <div class="canvas-wrapper">
+                                        <table class="table no-margin bg-lighter-grey">
+                                            
+                                            <tbody>
+                                                <tr>
+                                                    <td><span class="icon-image2vector"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></span> mpg123</td>
+                                                    <td class="text-right"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><span class="icon-image2vector-1"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></span> omxplayer</td>
+                                                    <td class="text-right"><?php echo $info['last_run']['prayer_detail']['timezone'] ?></td>
+                                                </tr>
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     
@@ -425,7 +459,7 @@
     <script src="<?php echo base_url(); ?>assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="<?php echo base_url(); ?>assets/vendor/jquery-toast-plugin/jquery.toast.min.js"></script>
     <script src="<?php echo base_url(); ?>assets/vendor/chartsjs/Chart.min.js"></script>
-    <script src="<?php echo base_url(); ?>assets/js/dashboard-charts.js"></script>
+    <!--  <script src="<?php echo base_url(); ?>assets/js/dashboard-charts.js"></script>  -->
     <script src="<?php echo base_url(); ?>assets/js/script.js"></script>
 </body>
 

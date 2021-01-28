@@ -142,12 +142,12 @@ class Jakim extends MY_Controller {
             
             //print_r($list_config);
             foreach($postdata as $a => $b){
-                $this->ConfigDB->update([
+                $this->DbInfo->update([
                         $a => $b,
                     ]);
                 
             }
-            $list_config = $this->ConfigDB->fetch()[0];
+            $list_config = $this->DbInfo->fetch()[0];
             
             $output['list_config'] = $list_config;
             $output['message_single'] = "Your settings has been updated successfully";
