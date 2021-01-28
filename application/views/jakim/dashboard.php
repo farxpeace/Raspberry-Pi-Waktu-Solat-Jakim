@@ -215,16 +215,16 @@
                                     </div>
                                     <div class="canvas-wrapper">
                                         <table class="table no-margin bg-lighter-grey">
-                                            
+                                            <thead>
+                                                <tr>
+                                                    <th>
+                                                        <span class="icon-image2vector-1"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span> </span> OMX Player
+                                                    </th>
+                                                </tr>
+                                            </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td><span class="icon-image2vector"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></span> mpg123</td>
-                                                    <td class="text-right"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><span class="icon-image2vector-1"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></span> omxplayer</td>
-                                                    <td class="text-right"><?php echo $info['last_run']['prayer_detail']['timezone'] ?></td>
-                                                </tr>
+                                                
+                                                
                                                 
                                                 
                                                 

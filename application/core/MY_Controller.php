@@ -37,6 +37,9 @@ class MY_Controller extends CI_Controller {
         
         $this->initialize_config();
         
+        //$this->detect_player_available();
+        
+        
         //prayer_time_by_zone
         $this->DbPrayer_time_by_zone = \SleekDB\SleekDB::store($this->db_name_info, $this->DB_path_prayer_time_by_zone);
         $this->SleekDB[] = $this->DbPrayer_time_by_zone;
@@ -61,7 +64,8 @@ class MY_Controller extends CI_Controller {
     
     function detect_player_available(){
         //omxplayer
-        //shell_exec('ls')
+        $a = shell_exec('ls -l');
+        var_dump($a); exit();
     }
     
     function initialize_config(){
