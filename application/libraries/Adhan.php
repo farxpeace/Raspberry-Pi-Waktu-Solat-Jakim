@@ -120,6 +120,15 @@ class Adhan {
         return $query->row_array();
     }
     
+    function get_last_run(){
+        $query = $this->CI->db->query("SELECT * FROM meta WHERE meta_key='adhan_last_run'");
+        $adhan_last_run = $query->row_array();
+        if(is_array($adhan_last_run) && count($adhan_last_run) > 0){
+            $adhan_last_run['value_array'] = json_decode($adhan_last_run['meta_value'], TRUE);
+        }
+        return $adhan_last_run;
+    }
+    
     
     
     

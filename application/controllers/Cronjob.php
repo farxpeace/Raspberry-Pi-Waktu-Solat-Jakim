@@ -78,11 +78,8 @@ class Cronjob extends MY_Controller {
             
             
             //update run_status to success
-            $update_data = [
-                'run_status' => 'success'
-            ];
-            $this->adhan->update_prayer_detail('adhan_id', $prayer_detail['adhan_id'], 'run_status', 'success');
-            //change updated data
+            $this->adhan->update_prayer_detail('solat_id', $prayer_detail['solat_id'], 'run_status', 'success');
+
             
             
             

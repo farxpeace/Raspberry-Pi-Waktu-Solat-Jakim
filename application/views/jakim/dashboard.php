@@ -144,7 +144,7 @@
                         
                         
                     </div>
-                    
+                    <?php $adhan_last_run = $this->adhan->get_last_run(); echo "<pre>"; print_r($adhan_last_run); echo "</pre>"; ?>
                     <div class="row">
                         <div class="col-sm-12 col-md-6 col-lg-6 mt-3">
                             
