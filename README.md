@@ -36,7 +36,15 @@ git clone https://github.com/farxpeace/Raspberry-Pi-Waktu-Solat-Jakim.git
 ```
 #### Download and extract
 ```
-wget https://github.com/farxpeace/Raspberry-Pi-Waktu-Solat-Jakim/archive/1.tar.gz
+sudo wget https://github.com/farxpeace/Raspberry-Pi-Waktu-Solat-Jakim/archive/main.zip
+```
+Extract zip file. Its gonna took around 15 minutes because of loading of prayer times database.
+```
+sudo unzip main.zip
+```
+Move content to working directory
+```
+sudo mv -v /var/www/html/Raspberry-Pi-Waktu-Solat-Jakim-main/* /var/www/html/
 ```
 
 
