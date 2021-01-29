@@ -32,7 +32,6 @@ class MY_Controller extends CI_Controller {
         $this->DB_path_prayer_time_by_zone = $this->DB_path_prayer_time_by_zone();
         $this->DB_path_jakim_by_current_year = $this->DB_path_jakim_by_current_year();
         
-        
        
         
         $this->initialize_config();

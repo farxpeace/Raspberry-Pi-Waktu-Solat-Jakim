@@ -1,6 +1,5 @@
 <?php
 
-
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Jakim extends MY_Controller {
@@ -10,6 +9,13 @@ class Jakim extends MY_Controller {
         
         $this->load->library('far_jakim');
         
+    }
+    
+    function add_zone(){
+        $query = $this->db->query("SELECT COUNT(solat_id) as total_zone, jakim_zon FROM prayer_time GROUP BY jakim_zon");
+        foreach($query->result_array() as $a => $b){
+            
+        }
     }
     
 	public function index(){

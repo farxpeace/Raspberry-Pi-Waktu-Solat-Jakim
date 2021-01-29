@@ -1,3 +1,4 @@
+
 <!doctype html>
 <!-- 
 * Bootstrap Simple Admin Template
@@ -29,7 +30,7 @@
 }
 </style>
 </head>
-
+<pre><?php print_r($info); ?></pre>
 <body>
     <div class="wrapper">
         
@@ -82,7 +83,7 @@
                                         <div class="col-sm-8">
                                             <div class="detail">
                                                 <p class="detail-subtitle">Total Records</p>
-                                                <span class="number"><?php echo number_format($info['total_records']); ?></span>
+                                                <span class="number"><?php echo $this->prayer_time->count_total_prayer_time(); ?></span>
                                             </div>
                                         </div>
                                     </div>
@@ -107,7 +108,7 @@
                                         <div class="col-sm-8">
                                             <div class="detail">
                                                 <p class="detail-subtitle">Total Zone</p>
-                                                <span class="number"><?php echo $info['total_zone'] ?></span>
+                                                <span class="number"><?php echo $this->prayer_time->total_zone(); ?></span>
                                             </div>
                                         </div>
                                     </div>
