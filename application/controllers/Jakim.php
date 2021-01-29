@@ -7,8 +7,6 @@ class Jakim extends MY_Controller {
         parent::__construct();
         
         
-        $this->load->library('far_jakim');
-        
     }
     
     function add_zone(){
@@ -20,8 +18,6 @@ class Jakim extends MY_Controller {
     
 	public function index(){
 	   
-        $count_total_prayer_time = $this->far_jakim->count_total_prayer_time();
-        $this->data['count_total_prayer_time'] = $count_total_prayer_time;
         
         //count total success
 

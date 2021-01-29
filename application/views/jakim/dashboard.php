@@ -30,7 +30,7 @@
 }
 </style>
 </head>
-<pre><?php print_r($this->adhan->list_all_zone()); ?></pre>
+
 <body>
     <div class="wrapper">
         

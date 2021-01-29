@@ -7,8 +7,7 @@ class Cronjob extends MY_Controller {
     function __construct(){
         parent::__construct();
         
-        
-        $this->load->library('far_jakim');
+       
         
     }
     
@@ -22,6 +21,7 @@ class Cronjob extends MY_Controller {
     function minutely_check_for_prayer_time(){
         $error = array();
         $output = array();
+        $prayer_detail = array();
         //deduct 1 minute from current time
         //$current_dttm = date("Y-m-d H:i:s");
         $current_dttm = "2021-01-15 05:59:00";
@@ -38,37 +38,35 @@ class Cronjob extends MY_Controller {
         $current_dttm_add_one_min = date("Y-m-d H:i:s", $time_add);
         
         //get zone
-        $allowed_zone = $this->DbInfo->fetch()[0]['list_all_zone'];
+        $list_all_zone = $this->adhan->list_all_zone();
+        $allowed_zone = array();
+        foreach($list_all_zone as $a => $b){
+            $allowed_zone[] = $b['jakim_zon'];
+        }
         
-        $zone_name = "";
-        if(isset($this->DbInfo->fetch()[0]['selected_zone'])){
-            $zone_name = $this->DbInfo->fetch()[0]['selected_zone'];
-        }else{
+        
+        
+        $zone_name = $this->adhan->get_meta_value('selected_zone');
+        if(strlen($zone_name) < 3){
             $error['selected_zone'] = "Please select zone first";
         }
         
-        if((isset($this->DbInfo->fetch()[0]['selected_zone'])) && (!in_array($this->DbInfo->fetch()[0]['selected_zone'], $allowed_zone))){
+        if((strlen($zone_name) >= 3) && (!in_array($zone_name, $allowed_zone))){
             $error['selected_zone'] = "Selected zone not matching with allowed zone";
+        }else{
+            
+            
+            //get prayer detail
+            $prayer_detail = $this->adhan->get_triggered_adhan($zone_name, $dttm_current, $dttm_subtract);
+            
+            
         }
-
-        
-        //check if exists in db
-        //load db by zone
-        $db_name = strtolower($zone_name);
-        $db_jakim_zone = strtoupper($zone_name);
-        $DBbyZone = \SleekDB\SleekDB::store($db_name, $this->DB_path_prayer_time_by_zone);
-
-        $prayer_detail_from_db = $DBbyZone
-                            ->where( 'jakim_zon', '=', $db_jakim_zone)
-                            ->where( 'run_status', '=', 'pending' )
-                            ->where( 'proper_dttm', '=', $dttm_current )
-                            ->orWhere( 'proper_dttm', '=', $dttm_subtract )
-                            ->fetch();
                             
-        if(is_array($prayer_detail_from_db) && count($prayer_detail_from_db) == 0){
+        if(is_array($prayer_detail) && count($prayer_detail) == 0){
             $error['prayer_time'] = "Not found in DB";
         }
         
+        $output['cron']['run_time'] = date("Y-m-d H:i:s");
         
         $output['zone'] = $zone_name;
         $output['dttm_current'] = $dttm_current;
@@ -77,16 +75,13 @@ class Cronjob extends MY_Controller {
         
         if(count($error) == 0){
             //$zone_name = $this->DbInfo->fetch()[0]['selected_zone'];
-            $prayer_detail = $prayer_detail_from_db[0];
+            
             
             //update run_status to success
             $update_data = [
                 'run_status' => 'success'
             ];
-            $DBbyZone->where( '_id', '=', $prayer_detail['_id'] )->update( $update_data );
-            $prayer_detail['run_status'] = 'success';
-            
-            
+            $this->adhan->update_prayer_detail('adhan_id', $prayer_detail['adhan_id'], 'run_status', 'success');
             //change updated data
             
             
@@ -95,29 +90,20 @@ class Cronjob extends MY_Controller {
             //play mp3
             //find mp3
             $media_detail = array();
-            $media_adhan_info = $this->DbInfo->fetch()[0];
-            $media_adhan_name = "media_adhan_".$prayer_detail['name'];
-            if(strlen($media_adhan_info[$media_adhan_name]) > 4){
-                $media_detail['status'] = "found";
-                $media_detail['message'] = "Media found. Play mp3. (".$media_adhan_info[$media_adhan_name].")";
-                $media_detail['media_name'] = $media_adhan_info[$media_adhan_name];
-                //echo $media_adhan_info['']
+            $media_adhan_info = $this->adhan->get_prayer_detail('adhan_code_name', $prayer_detail['name']);
+            
+            if(strlen($media_adhan_info['adhan_media_name']) > 4){
+                $media_adhan_info['media_found'] = "yes";
             }else{
-                $media_detail['status'] = "not_found";
-                $media_detail['message'] = "Media not found";
+                $media_adhan_info['media_found'] = "no";
             }
-            $prayer_detail['media_detail'] = $media_detail;
+            $output['media_detail'] = $media_adhan_info;
             
             
-            //update last run
-            $update_data_last_run = array(
-                'run_dttm' => date("Y-m-d H:i:s"),
-                'prayer_detail' => $prayer_detail
-                
-            );
-            $this->DbInfo->update([
-                'last_run' => $update_data_last_run
-            ]);
+            $output['prayer_detail'] = $prayer_detail;
+            
+            
+            
             
             //turn on led
             
@@ -125,7 +111,11 @@ class Cronjob extends MY_Controller {
             
             
             $output['status'] = "success";
-            $output['prayer_detail'] = $prayer_detail;
+            
+            
+            //update last run
+            $last_run_data = json_encode($output);
+            $this->adhan->update_meta('adhan_last_run', $last_run_data);
             
             
         }else{

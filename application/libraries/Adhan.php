@@ -88,6 +88,11 @@ class Adhan {
         }
     }
     
+    function get_prayer_detail($column, $value){
+        $query = $this->CI->db->query("SELECT * FROM prayer_detail WHERE ".$column."='".$value."'");
+        return $query->row_array();
+    }
+    
     function list_prayer_detail(){
         $query = $this->CI->db->query("SELECT * FROM prayer_detail ORDER BY adhan_sorting ASC");
         return $query->result_array();
@@ -101,6 +106,18 @@ class Adhan {
 
         $this->CI->db->where($key, $key_value);
         $this->CI->db->update('prayer_detail', $data); 
+    }
+    
+    function get_triggered_adhan($jakim_zon, $dttm_current, $dttm_subtract){
+        $query = $this->CI->db->query("
+            SELECT * FROM prayer_time
+            WHERE jakim_zon='".$jakim_zon."'
+            AND run_status='pending'
+            AND proper_dttm BETWEEN '".$dttm_subtract."' AND '".$dttm_current."'
+        ");
+
+        
+        return $query->row_array();
     }
     
     
