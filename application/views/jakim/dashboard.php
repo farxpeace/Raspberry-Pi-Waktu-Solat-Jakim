@@ -30,7 +30,7 @@
 }
 </style>
 </head>
-<pre><?php print_r($info); ?></pre>
+<pre><?php print_r($this->adhan->list_all_zone()); ?></pre>
 <body>
     <div class="wrapper">
         
@@ -83,7 +83,7 @@
                                         <div class="col-sm-8">
                                             <div class="detail">
                                                 <p class="detail-subtitle">Total Records</p>
-                                                <span class="number"><?php echo $this->prayer_time->count_total_prayer_time(); ?></span>
+                                                <span class="number"><?php echo $this->adhan->count_total_prayer_time(); ?></span>
                                             </div>
                                         </div>
                                     </div>
@@ -108,7 +108,7 @@
                                         <div class="col-sm-8">
                                             <div class="detail">
                                                 <p class="detail-subtitle">Total Zone</p>
-                                                <span class="number"><?php echo $this->prayer_time->total_zone(); ?></span>
+                                                <span class="number"><?php echo $this->adhan->total_zone(); ?></span>
                                             </div>
                                         </div>
                                     </div>
@@ -132,8 +132,8 @@
                                     <div class="form-group" style="margin-bottom: 0px;">
                                             <select class="form-control" name="selected_zone" id="selected_zone">
                                                 <option value="0">Please select your zone</option>
-                                                <?php foreach($info['list_all_zone'] as $a => $b){ ?>
-                                                <option value="<?php echo $b; ?>" <?php if($info['selected_zone'] == $b){ echo "selected"; } ?>><?php echo $b; ?></option>
+                                                <?php foreach($this->adhan->list_all_zone() as $a => $b){ ?>
+                                                <option value="<?php echo $b['jakim_zon']; ?>" <?php if($this->adhan->get_meta_value('selected_zone') == $b['jakim_zon']){ echo "selected"; } ?>><?php echo $b['jakim_zon']; ?></option>
                                                 <?php } ?>
                                             </select>
                                             
@@ -252,6 +252,9 @@
                                     </div>
                                     
                                     <div class="canvas-wrapper">
+                                    
+                                        
+                                    
                                         <table class="table no-margin bg-lighter-grey">
                                             <thead class="success">
                                                 <tr>
@@ -260,126 +263,33 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                                <?php foreach($this->adhan->list_prayer_detail() as $a => $b){ ?>
                                                 <tr>
-                                                    <td><i class="blue fa fa-star-and-crescent"></i> Imsk</td>
+                                                    <td><i class="<?php if(strlen($b['adhan_media_name']) < 5){ echo "grey"; }else{ echo "blue"; } ?> fa fa-star-and-crescent icon_adhan"></i> <?php echo $b['adhan_name']; ?></td>
                                                     <td class="text-right">
                                                         <span class="adhan_media_name">
-                                                            <?php if(strlen($info['media_adhan_imsk']) < 5){ ?>
+                                                            <?php if(strlen($b['adhan_media_name']) < 5){ ?>
                                                             No file chosen
-                                                            <?php }else{ echo $info['media_adhan_imsk']; }  ?>
+                                                            <?php }else{ echo $b['adhan_media_name']; }  ?>
                                                         </span>
-                                                        <input type="file" id="upload_media_adhan_imsk" class="upload_media_adhan" data-adhan_name="imsk" hidden/>
+                                                        <input type="file" id="upload_media_adhan_<?php echo $b['adhan_id']; ?>" class="upload_media_adhan" data-adhan_id="<?php echo $b['adhan_id']; ?>" hidden/>
                                                         
                                                         
-                                                        <label for="upload_media_adhan_imsk" class="btn btn-icon icon-left btn-info btn-sm">
+                                                        <label for="upload_media_adhan_<?php echo $b['adhan_id']; ?>" class="btn btn-icon icon-left btn-info btn-sm">
                                                             <i class="fas fa-file-upload"></i> Upload
                                                         </label>
-                                                        <button onclick="javascript: remove_media('media_adhan_imsk')" type="button" class="btn btn-icon icon-left btn-danger btn-sm mb-2"><i class="fas fa-minus-circle"></i></button>
+                                                        <button onclick="javascript: remove_media('<?php echo $b['adhan_id']; ?>')" type="button" class="btn btn-icon icon-left btn-danger btn-sm mb-2"><i class="fas fa-minus-circle"></i></button>
                                                         
                                                     </td>
                                                 </tr>
-                                                <tr>
-                                                    <td><i class="blue fa fa-star-and-crescent"></i> Fajr</td>
-                                                    <td class="text-right">
-                                                        <span class="adhan_media_name">
-                                                            <?php if(strlen($info['media_adhan_fajr']) < 5){ ?>
-                                                            No file chosen
-                                                            <?php }else{ echo $info['media_adhan_fajr']; }  ?>
-                                                        </span>
-                                                        <input type="file" id="upload_media_adhan_fajr" class="upload_media_adhan" data-adhan_name="fajr" hidden/>
-                                                        
-                                                        
-                                                        <label for="upload_media_adhan_fajr" class="btn btn-icon icon-left btn-info btn-sm">
-                                                            <i class="fas fa-file-upload"></i> Upload
-                                                        </label>
-                                                        <button onclick="javascript: remove_media('media_adhan_fajr')" type="button" class="btn btn-icon icon-left btn-danger btn-sm mb-2"><i class="fas fa-minus-circle"></i></button>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td><i class="blue fa fa-star-and-crescent"></i> Sunrise (Syuruk)</td>
-                                                    <td class="text-right">
-                                                        <span class="adhan_media_name">
-                                                            <?php if(strlen($info['media_adhan_sunrise']) < 5){ ?>
-                                                            No file chosen
-                                                            <?php }else{ echo $info['media_adhan_sunrise']; }  ?>
-                                                        </span>
-                                                        <input type="file" id="upload_media_adhan_sunrise" class="upload_media_adhan" data-adhan_name="sunrise" hidden/>
-                                                        
-                                                        
-                                                        <label for="upload_media_adhan_sunrise" class="btn btn-icon icon-left btn-info btn-sm">
-                                                            <i class="fas fa-file-upload"></i> Upload
-                                                        </label>
-                                                        <button onclick="javascript: remove_media('media_adhan_sunrise')" type="button" class="btn btn-icon icon-left btn-danger btn-sm mb-2"><i class="fas fa-minus-circle"></i></button>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td><i class="blue fa fa-star-and-crescent"></i> Dhuhr</td>
-                                                    <td class="text-right">
-                                                        <span class="adhan_media_name">
-                                                            <?php if(strlen($info['media_adhan_dhuhr']) < 5){ ?>
-                                                            No file chosen
-                                                            <?php }else{ echo $info['media_adhan_dhuhr']; }  ?>
-                                                        </span>
-                                                        <input type="file" id="upload_media_adhan_dhuhr" class="upload_media_adhan" data-adhan_name="dhuhr" hidden/>
-                                                        
-                                                        
-                                                        <label for="upload_media_adhan_dhuhr" class="btn btn-icon icon-left btn-info btn-sm">
-                                                            <i class="fas fa-file-upload"></i> Upload
-                                                        </label>
-                                                        <button onclick="javascript: remove_media('media_adhan_dhuhr')" type="button" class="btn btn-icon icon-left btn-danger btn-sm mb-2"><i class="fas fa-minus-circle"></i></button>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td><i class="blue fa fa-star-and-crescent"></i> Asr</td>
-                                                    <td class="text-right">
-                                                        <span class="adhan_media_name">
-                                                            <?php if(strlen($info['media_adhan_asr']) < 5){ ?>
-                                                            No file chosen
-                                                            <?php }else{ echo $info['media_adhan_asr']; }  ?>
-                                                        </span>
-                                                        <input type="file" id="upload_media_adhan_asr" class="upload_media_adhan" data-adhan_name="asr" hidden/>
-                                                        
-                                                        
-                                                        <label for="upload_media_adhan_asr" class="btn btn-icon icon-left btn-info btn-sm">
-                                                            <i class="fas fa-file-upload"></i> Upload
-                                                        </label>
-                                                        <button onclick="javascript: remove_media('media_adhan_asr')" type="button" class="btn btn-icon icon-left btn-danger btn-sm mb-2"><i class="fas fa-minus-circle"></i></button>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td><i class="blue fa fa-star-and-crescent"></i> Maghrib</td>
-                                                    <td class="text-right">
-                                                        <span class="adhan_media_name">
-                                                            <?php if(strlen($info['media_adhan_maghrib']) < 5){ ?>
-                                                            No file chosen
-                                                            <?php }else{ echo $info['media_adhan_maghrib']; }  ?>
-                                                        </span>
-                                                        <input type="file" id="upload_media_adhan_maghrib" class="upload_media_adhan" data-adhan_name="maghrib" hidden/>
-                                                        
-                                                        
-                                                        <label for="upload_media_adhan_maghrib" class="btn btn-icon icon-left btn-info btn-sm">
-                                                            <i class="fas fa-file-upload"></i> Upload
-                                                        </label>
-                                                        <button onclick="javascript: remove_media('media_adhan_maghrib')" type="button" class="btn btn-icon icon-left btn-danger btn-sm mb-2"><i class="fas fa-minus-circle"></i></button>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td><i class="blue fa fa-star-and-crescent"></i> Isha</td>
-                                                    <td class="text-right">
-                                                        <span class="adhan_media_name">
-                                                            <?php if(strlen($info['media_adhan_isha']) < 5){ ?>
-                                                            No file chosen
-                                                            <?php }else{ echo $info['media_adhan_isha']; }  ?>
-                                                        </span>
-                                                        <input type="file" id="upload_media_adhan_isha" class="upload_media_adhan" data-adhan_name="isha" hidden/>
-                                                        
-                                                        
-                                                        <label for="upload_media_adhan_isha" class="btn btn-icon icon-left btn-info btn-sm">
-                                                            <i class="fas fa-file-upload"></i> Upload
-                                                        </label>
-                                                        <button onclick="javascript: remove_media('media_adhan_isha')" type="button" class="btn btn-icon icon-left btn-danger btn-sm mb-2"><i class="fas fa-minus-circle"></i></button>
-                                                    </td>
-                                                </tr>
+                                                <?php } ?>
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
                                                 
                                                 
                                                 
@@ -471,19 +381,19 @@ $(function(){
         $(adhan_media_name).text(this.files[0].name);
         
         
-        var adhan_name = $(this).data("adhan_name");
-        start_upload(this.files, adhan_name);
+        var adhan_id = $(this).data("adhan_id");
+        start_upload(this.files, adhan_id);
     });
 });
 
-function remove_media(media_name){
+function remove_media(adhan_id){
     $.ajax({
         url: "<?php echo site_url(); ?>/jakim/remove_media_adhan",
         type: "POST",
         dataType: "JSON",
         data: {
             postdata: {
-                media_name: media_name
+                adhan_id: adhan_id
             }
         },
         success: function(data){
@@ -506,16 +416,20 @@ function remove_media(media_name){
                 });
             }
             
-            var parent = $("#upload_"+media_name).parent().children(".adhan_media_name").text("No file chosen");
+            var parent = $("#upload_media_adhan_"+adhan_id).parent().children(".adhan_media_name").text("No file chosen");
+            
+            var icon = $("#upload_media_adhan_"+adhan_id).parent().closest("tr").find(".icon_adhan")[0];
+            $(icon).removeClass('blue').addClass('grey');
+            
         }
     })
 }
 
-function start_upload(files, adhan_name){
+function start_upload(files, adhan_id){
 
 
         var fd = new FormData();
-        fd.append("adhan_name", adhan_name);
+        fd.append("adhan_id", adhan_id);
         // Check file selected or not
         if(files.length > 0 ){
            fd.append('file',files[0]);
@@ -529,6 +443,10 @@ function start_upload(files, adhan_name){
               success: function(data){
                 data = JSON.parse(data);
                  if(data.status == "success"){
+                    
+                    var icon = $("#upload_media_adhan_"+adhan_id).parent().closest("tr").find(".icon_adhan")[0];
+                    $(icon).removeClass('grey').addClass('blue');
+                    
                     $.toast({
                         text: data.message_single, // Text that is to be shown in the toast
                         heading: 'Uploaded', // Optional heading to be shown on the toast

@@ -81,15 +81,11 @@ class Jakim extends MY_Controller {
         
 
         if(count($error) == 0){
-            $adhan_name = $this->input->post('adhan_name');
+            $adhan_id = $this->input->post('adhan_id');
             
+            $this->adhan->update_prayer_detail('adhan_id', $adhan_id, 'adhan_media_name', $filename);
 
-            
-            $media_adhan_name = 'media_adhan_'.$adhan_name;
-            $this->DbInfo->update([
-                $media_adhan_name => $filename
-            ]);
-            
+           
             
             
             $output['message_single'] = "Media for ".$adhan_name." updated";
@@ -115,13 +111,9 @@ class Jakim extends MY_Controller {
         
         if(count($error) == 0){
             
-            $media_adhan_name = $postdata['media_name'];
-            $this->DbInfo->update([
-                $media_adhan_name => ""
-            ]);
+            $this->adhan->update_prayer_detail('adhan_id', $postdata['adhan_id'], 'adhan_media_name', NULL);
             
-            
-            $output['list_config'] = $list_config;
+
             $output['message_single'] = "Adhan media has been removed";
             $output['status'] = "success";
         }else{
@@ -148,14 +140,10 @@ class Jakim extends MY_Controller {
             
             //print_r($list_config);
             foreach($postdata as $a => $b){
-                $this->DbInfo->update([
-                        $a => $b,
-                    ]);
+                $this->adhan->update_meta($a, $b);
                 
             }
-            $list_config = $this->DbInfo->fetch()[0];
             
-            $output['list_config'] = $list_config;
             $output['message_single'] = "Your settings has been updated successfully";
             $output['status'] = "success";
         }else{
