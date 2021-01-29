@@ -42,9 +42,48 @@ Extract zip file. Its gonna took around 15 minutes because of loading of prayer 
 ```
 sudo unzip main.zip
 ```
+![Extracting](https://i.imgur.com/y7ouKqm.png)
+
+
 Move content to working directory
 ```
+shopt -s dotglob
+```
+```
 sudo mv -v /var/www/html/Raspberry-Pi-Waktu-Solat-Jakim-main/* /var/www/html/
+```
+
+Remove index.html (default created by Apache)
+```
+sudo rm index.html
+```
+
+#### Configuration
+Edit base_url on config.php . Change it to your local ip address.
+```
+ sudo nano application/config/config.php
+```
+![config](https://i.imgur.com/29aKN36.png)
+
+Make databases writable
+```
+sudo chmod -R 0775 /var/www/html/application/third_party/SleekDB/databases
+```
+and make media folder writable
+```
+sudo chmod -R 0775 /var/www/html/assets/media
+```
+
+Increase max_execution_time to 90
+Increase upload_max_filesize to 20MB
+Increase post_max_size to 21MB
+Optional if you get permission error. Add www-data user to root group.
+```
+sudo adduser www-data root
+```
+Finally dont forget to restart apache
+```
+sudo service apache2 restart
 ```
 
 
