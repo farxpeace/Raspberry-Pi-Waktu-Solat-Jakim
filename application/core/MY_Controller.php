@@ -8,6 +8,7 @@ class MY_Controller extends CI_Controller {
     
     public $Player;
     function __construct() {
+        
         parent::__construct();
         
         
@@ -19,6 +20,10 @@ class MY_Controller extends CI_Controller {
         
         $this->data = array();
         
+        
+    }
+    
+    function onload_check_modules(){
         
     }
     
