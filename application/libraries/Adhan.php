@@ -114,6 +114,15 @@ class Adhan {
         $this->CI->db->update('prayer_detail', $data); 
     }
     
+    function update_prayer_time($key, $key_value, $column, $value){
+        $data = array(
+            $column => $value
+        );
+
+        $this->CI->db->where($key, $key_value);
+        $this->CI->db->update('prayer_time', $data); 
+    }
+    
     function get_triggered_adhan($jakim_zon, $dttm_current, $dttm_subtract){
         $query = $this->CI->db->query("
             SELECT * FROM prayer_time

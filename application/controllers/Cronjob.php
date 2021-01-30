@@ -23,8 +23,8 @@ class Cronjob extends MY_Controller {
         $output = array();
         $prayer_detail = array();
         //deduct 1 minute from current time
-        //$current_dttm = date("Y-m-d H:i:s");
-        $current_dttm = "2021-01-15 05:59:00";
+        $current_dttm = date("Y-m-d H:i:s");
+        //$current_dttm = "2021-01-15 05:59:00";
         $timestamp_current = strtotime($current_dttm);
         // Subtract time from datetime
         $time_subtract = $timestamp_current - (1 * 60);
@@ -76,13 +76,14 @@ class Cronjob extends MY_Controller {
         $output['dttm_current'] = $dttm_current;
         $output['dttm_subtract'] = $dttm_subtract;
         $output['dttm_add'] = $dttm_add;
-
+        
+        
         if(count($error) == 0){
             //$zone_name = $this->DbInfo->fetch()[0]['selected_zone'];
             
             
             //update run_status to success
-            $this->adhan->update_prayer_detail('solat_id', $prayer_detail['solat_id'], 'run_status', 'success');
+            $this->adhan->update_prayer_time('solat_id', $prayer_detail['solat_id'], 'run_status', 'success');
 
             
             
@@ -94,7 +95,14 @@ class Cronjob extends MY_Controller {
             $media_adhan_info = $this->adhan->get_prayer_detail('adhan_code_name', $prayer_detail['name']);
             
             if(strlen($media_adhan_info['adhan_media_name']) > 4){
-                $media_adhan_info['media_found'] = "yes";
+                $media_path = FCPATH.'assets'.DIRECTORY_SEPARATOR.'media'.DIRECTORY_SEPARATOR.'adhan'.DIRECTORY_SEPARATOR.$media_adhan_info['adhan_media_name'];
+                if (file_exists($media_path)) {
+                    $media_adhan_info['media_found'] = "yes";
+                    $media_adhan_info['media_path'] = $media_path;
+                }
+                
+                
+                
             }else{
                 $media_adhan_info['media_found'] = "no";
             }
@@ -103,6 +111,9 @@ class Cronjob extends MY_Controller {
             
             $output['prayer_detail'] = $prayer_detail;
             
+            if($media_adhan_info['media_found'] == "yes"){
+                shell_exec("omxplayer --no-keys -o both ".$media_path." > /dev/null 2>/dev/null &");
+            }
             
             
             
