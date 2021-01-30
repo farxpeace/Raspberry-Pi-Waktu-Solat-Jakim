@@ -44,18 +44,20 @@
 // Please see https://bitbucket.org/phpliteadmin/public/wiki/Configuration for more details
 
 //password to gain access
-$password = '';
+$password = '12345678';
 
 //directory relative to this file to search for databases (if false, manually list databases in the $databases variable)
-$directory = './application\db';
-
+$directory = '/var/www/html/application/db/';
 //whether or not to scan the subdirectories of the above directory infinitely deep
 $subdirectories = false;
 
 //if the above $directory variable is set to false, you must specify the databases manually in an array as the next variable
 //if any of the databases do not exist as they are referenced by their path, they will be created automatically
 $databases = array(
-	
+	array(
+		'path'=> '/var/www/html/application/db/sqlite3_jakim',
+		'name'=> 'sqlite3_jakim'
+	)
 );
 
 
@@ -4516,16 +4518,22 @@ class Database
 	public function print_db_list()
 	{
 		global $databases, $lang, $params, $currentDB;
+        
 		echo "<fieldset style='margin:15px;' class='databaseList'><legend><b>".$lang['db_ch']."</b></legend>";
 		if(sizeof($databases)<10) //if there aren't a lot of databases, just show them as a list of links instead of drop down menu
 		{
+		  
 			$i=0;
 			foreach($databases as $database)
 			{
+			     
 				$i++;
 				$name = $database['name'];
-				if(mb_strlen($name)>25)
+                
+				if(mb_strlen($name)>25){
 					$name = "...".mb_substr($name, mb_strlen($name)-22, 22); 
+                }
+                
 				echo '[' . ($database['readable'] ? 'r':' ' ) . ($database['writable'] && $database['writable_dir'] ? 'w':' ' ) . ']&nbsp;';
 				
 				echo $params->getLink(array('database'=>$database['path'], 'table'=>null), htmlencode($name), ($database == $currentDB? 'active_db': '') );

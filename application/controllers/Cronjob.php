@@ -57,12 +57,16 @@ class Cronjob extends MY_Controller {
             
             
             //get prayer detail
+            
             $prayer_detail = $this->adhan->get_triggered_adhan($zone_name, $dttm_current, $dttm_subtract);
             
             
         }
                             
         if(is_array($prayer_detail) && count($prayer_detail) == 0){
+            $error['prayer_time'] = "Not found in DB";
+        }
+        if(is_null($prayer_detail)){
             $error['prayer_time'] = "Not found in DB";
         }
         
@@ -72,7 +76,7 @@ class Cronjob extends MY_Controller {
         $output['dttm_current'] = $dttm_current;
         $output['dttm_subtract'] = $dttm_subtract;
         $output['dttm_add'] = $dttm_add;
-        
+
         if(count($error) == 0){
             //$zone_name = $this->DbInfo->fetch()[0]['selected_zone'];
             

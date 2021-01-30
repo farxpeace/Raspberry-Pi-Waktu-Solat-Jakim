@@ -12,6 +12,7 @@ class MY_Controller extends CI_Controller {
         parent::__construct();
         
         
+        
         $this->initialize_config();
         
         //$this->detect_player_available();
@@ -24,19 +25,47 @@ class MY_Controller extends CI_Controller {
     }
     
     function onload_check_modules(){
+        $error = array();
+        $error['missing_required_extension'] = array();
+        $error['database_not_writable'] = array();
+        $error['media_adhan_directory_not_writable'] = array();
+        
+        
         $missing_required_extension = array();
-        $required = array("sqlite3", "pdo_sqlite");
+        $required = array("sqlite3", "pdo_sqlite", "mbstring");
         $installed_extension = get_loaded_extensions();
         foreach($required as $a => $b){
             if(!in_array($b, $installed_extension)){
-                $missing_required_extension[] = $b;
+                $error['missing_required_extension'][] = $b;
             }
         }
         
         
-        require_once(APPPATH.'views/errors/html/onload_check_modules.php');
+        //check if database if writable
+        $database_not_writable = array();
+        $database_file_array = array(APPPATH."db".DIRECTORY_SEPARATOR,APPPATH."db".DIRECTORY_SEPARATOR."sqlite3_jakim");
+        foreach($database_file_array as $a => $b){
+            if (!is_writable($b)) {
+                $error['database_not_writable'][] = $b;
+            }
+        }
         
-        die();
+        //check if assets/media/adhan is writable
+        $media_adhan_folder = array(FCPATH.'assets'.DIRECTORY_SEPARATOR.'media'.DIRECTORY_SEPARATOR.'adhan');
+        foreach($media_adhan_folder as $a => $b){
+            if (!is_writable($b)) {
+                $error['media_adhan_directory_not_writable'][] = $b;
+            }
+        }
+        
+        
+        if((count($error['missing_required_extension']) > 0) || (count($error['database_not_writable']) > 0) || (count($error['media_adhan_directory_not_writable']))){
+            require_once(APPPATH.'views/errors/html/onload_check_modules.php');
+            die();
+        }
+        
+        
+        
     }
     
     function detect_player_available(){

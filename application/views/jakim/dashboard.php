@@ -71,6 +71,8 @@
                     
                     
                     <div class="row">
+                        
+                        <?php /*
                         <div class="col-sm-6 col-md-6 col-lg-3 mt-3">
                             <div class="card">
                                 <div class="content">
@@ -121,8 +123,7 @@
                                 </div>
                             </div>
                         </div>
-                        
-                        
+                        */ ?>
                         
                         <div class="col-sm-12 col-md-6 col-lg-6 mt-3">
                             <div class="card">
@@ -133,7 +134,7 @@
                                             <select class="form-control" name="selected_zone" id="selected_zone">
                                                 <option value="0">Please select your zone</option>
                                                 <?php foreach($this->adhan->list_all_zone() as $a => $b){ ?>
-                                                <option value="<?php echo $b['jakim_zon']; ?>" <?php if($this->adhan->get_meta_value('selected_zone') == $b['jakim_zon']){ echo "selected"; } ?>><?php echo $b['jakim_zon']; ?></option>
+                                                <option value="<?php echo $b['jakim_zon']; ?>" <?php if($selected_zone == $b['jakim_zon']){ echo "selected"; } ?>><?php echo $b['jakim_zon']; ?></option>
                                                 <?php } ?>
                                             </select>
                                             
@@ -142,9 +143,43 @@
                             </div>
                         </div>
                         
+                        <div class="col-sm-12 col-md-6 col-lg-6 mt-3">
+                            <div class="card">
+                                <div class="content">
+                                    <div class="head">
+                                        <h5 class="mb-0">Media Player</h5>
+                                        <p class="text-muted">Raspberry Pi Media Player</p>
+                                    </div>
+                                    <div class="canvas-wrapper">
+                                        <table class="table no-margin bg-lighter-grey">
+                                            <thead>
+                                                <tr>
+                                                    <th>
+                                                        <span class="icon-image2vector-1"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span> </span> OMX Player
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
                         
                     </div>
-                    <?php $adhan_last_run = $this->adhan->get_last_run(); echo "<pre>"; print_r($adhan_last_run); echo "</pre>"; ?>
+                    <?php $adhan_last_run = $this->adhan->get_last_run();  ?>
                     <div class="row">
                         <div class="col-sm-12 col-md-6 col-lg-6 mt-3">
                             
@@ -207,39 +242,7 @@
                             
                             
                         </div>
-                        <div class="col-sm-12 col-md-6 col-lg-6 mt-3">
-                            <div class="card">
-                                <div class="content">
-                                    <div class="head">
-                                        <h5 class="mb-0">Media Player</h5>
-                                        <p class="text-muted">Raspberry Pi Media Player</p>
-                                    </div>
-                                    <div class="canvas-wrapper">
-                                        <table class="table no-margin bg-lighter-grey">
-                                            <thead>
-                                                <tr>
-                                                    <th>
-                                                        <span class="icon-image2vector-1"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span> </span> OMX Player
-                                                    </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        
                     </div>
                     
                     <div class="row">

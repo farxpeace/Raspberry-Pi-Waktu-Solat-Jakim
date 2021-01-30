@@ -13,11 +13,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Blank Page | Bootstrap Simple Admin Template</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@duckdoc/termynal@1.0.0/termynal.css" integrity="sha256-dMpY/WddWZbPzXeg/67fZN+gqClErMKM/GpaJE8Bnwk=" crossorigin="anonymous">
     <link href="assets/vendor/fontawesome/css/fontawesome.min.css" rel="stylesheet">
     <link href="assets/vendor/fontawesome/css/solid.min.css" rel="stylesheet">
     <link href="assets/vendor/fontawesome/css/brands.min.css" rel="stylesheet">
     <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="assets/css/master.css" rel="stylesheet">
+    
 </head>
 
 <body>
@@ -111,39 +113,83 @@
                     <div class="page-title">
                         <h3 style="text-align: center;">There are some error need to resolve first</h3>
                     </div>
+<style>
+blockquote {
+    margin: 0;
+    background-color: #808080;
+    color: #FFFFFF;
+    padding: 5px 20px;
+    width: 100%;
+    margin-bottom: 10px;
+}                    
+</style>
+                    <?php if(is_array($error['missing_required_extension']) && count($error['missing_required_extension']) > 0){ ?>
                     
-                    <?php if(is_array($missing_required_extension) && count($missing_required_extension) > 0){ ?>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="card">
-                                <div class="content">
-                                    <div class="head">
-                                        <h5 class="mb-0">Missing Required Extension</h5>
-                                        <p class="text-muted">Please figure out how to make all these extension available.</p>
-                                    </div>
-                                    <div class="canvas-wrapper">
-                                        <table class="table no-margin bg-lighter-grey">
-                                            <thead class="success">
-                                                <tr>
-                                                    <th>Extension name</th>
-                                                    <th class="text-right">Action<sup>(s)</sup></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <?php foreach($missing_required_extension as $a => $b){ ?>
-                                                <tr>
-                                                    <td><i class="flag-icon flag-icon-us"></i> <?php echo $b; ?></td>
-                                                    <td class="text-right"></td>
-                                                </tr>
-                                                <?php } ?>
-                                                
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
+                    <?php foreach($error['missing_required_extension'] as $a => $b){ ?>
+                    <div class="card">
+                        <h5 class="card-header">Missing Required Extension '<?php echo $b; ?>'</h5>
+                            <div class="card-body">
+                                <?php if($b == 'sqlite3'){ ?>
+                                Check PHP version
+                                <blockquote>php -v</blockquote>
+                                <blockquote>sudo apt-get install sqlite3</blockquote>
+                                <blockquote>sudo apt-get install php7.3-sqlite</blockquote>
+                                <blockquote>sudo service apache2 restart</blockquote>
+                                <?php } ?>
+                                
+                                <?php if($b == 'mbstring'){ ?>
+                                Install mbstring
+                                <blockquote>sudo apt-get install php7.3-mbstring</blockquote>
+                                <blockquote>sudo service apache2 restart</blockquote>
+                                <?php } ?>
+                                
                             </div>
                         </div>
-                    </div>
+                    <?php } ?>
+                    
+                    
+                    <?php } ?>
+                    
+                    <?php if(is_array($error['database_not_writable']) && count($error['database_not_writable']) > 0){ ?>
+                    
+                        <?php foreach($error['database_not_writable'] as $a => $b){ ?>
+                        <div class="card">
+                            <h5 class="card-header">Database not writable '<?php echo $b; ?>'</h5>
+                                <div class="card-body">
+                                    <?php if(is_dir($b)){ ?>
+                                    <blockquote>sudo chmod 0775 -R <?php echo $b; ?></blockquote>
+                                    <?php }else{ ?>
+                                    <blockquote>sudo chmod 0775 <?php echo $b; ?></blockquote>
+                                    <?php } ?>
+                                    
+                                    
+                                    
+                                </div>
+                            </div>
+                        <?php } ?>
+                    
+                    
+                    <?php } ?>
+                    
+                    <?php if(is_array($error['media_adhan_directory_not_writable']) && count($error['media_adhan_directory_not_writable']) > 0){ ?>
+                    
+                        <?php foreach($error['media_adhan_directory_not_writable'] as $a => $b){ ?>
+                        <div class="card">
+                            <h5 class="card-header">Media directory not writable '<?php echo $b; ?>'</h5>
+                                <div class="card-body">
+                                    <?php if(is_dir($b)){ ?>
+                                    <blockquote>sudo chmod 0775 -R <?php echo $b; ?></blockquote>
+                                    <?php }else{ ?>
+                                    <blockquote>sudo chmod 0775 <?php echo $b; ?></blockquote>
+                                    <?php } ?>
+                                    
+                                    
+                                    
+                                </div>
+                            </div>
+                        <?php } ?>
+                    
+                    
                     <?php } ?>
                     
                     
@@ -151,9 +197,11 @@
             </div>
         </div>
     </div>
+    
     <script src="assets/vendor/jquery/jquery.min.js"></script>
     <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="assets/js/script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@duckdoc/termynal@1.0.0/termynal.js" ></script>
 </body>
 
 </html>

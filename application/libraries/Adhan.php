@@ -3,13 +3,18 @@
 
 class Adhan {
     private $CI;
+    private $startTime;
     public function __construct(){
         $this->CI =& get_instance();
         
     }
     
+    
+    
     function count_total_prayer_time(){
+        
         $query = $this->CI->db->query("SELECT solat_id FROM prayer_time");
+        
         return $query->num_rows();
     }
     
@@ -29,6 +34,7 @@ class Adhan {
             GROUP BY state.state_name
         
         ");
+        
         return $query->result_array();
     }
     
@@ -116,6 +122,7 @@ class Adhan {
             AND proper_dttm BETWEEN '".$dttm_subtract."' AND '".$dttm_current."'
         ");
 
+        $row = $query->row_array();
         
         return $query->row_array();
     }

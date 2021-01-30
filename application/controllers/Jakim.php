@@ -5,8 +5,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Jakim extends MY_Controller {
     function __construct(){
         parent::__construct();
-        
-        
     }
     
     function add_zone(){
@@ -19,8 +17,8 @@ class Jakim extends MY_Controller {
 	public function index(){
 	   
         
-        //count total success
-
+        $selected_zone = $this->adhan->get_meta_value('selected_zone');
+        $this->data['selected_zone'] = $selected_zone;
         
         
 	   
