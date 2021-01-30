@@ -87,3 +87,17 @@ sudo service apache2 restart
 ```
 
 
+#### Volume
+To set the master volume use:
+
+# Gets a list of simple mixer controls
+$ amixer scontrols 
+Then set it to the desired volume, as an example
+
+$ amixer sset 'Master' 50%
+Share
+
+Stop player
+shell_exec("pkill mpg123");
+
+

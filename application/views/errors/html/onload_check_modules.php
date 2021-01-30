@@ -143,6 +143,8 @@ blockquote {
                                 <blockquote>sudo service apache2 restart</blockquote>
                                 <?php } ?>
                                 
+                                
+                                
                             </div>
                         </div>
                     <?php } ?>
@@ -182,6 +184,32 @@ blockquote {
                                     <?php }else{ ?>
                                     <blockquote>sudo chmod 0775 <?php echo $b; ?></blockquote>
                                     <?php } ?>
+                                    
+                                    
+                                    
+                                </div>
+                            </div>
+                        <?php } ?>
+                    
+                    
+                    <?php } ?>
+                    
+                    <?php if(is_array($error['media_player_not_found']) && count($error['media_player_not_found']) > 0){ ?>
+                    
+                        <?php foreach($error['media_player_not_found'] as $a => $b){ ?>
+                        <div class="card">
+                            <h5 class="card-header">Media player not installed '<?php echo $b; ?>'</h5>
+                                <div class="card-body">
+                                    <?php if($b == 'mpg123'){ ?>
+                                    Install mpg123
+                                    <blockquote>sudo apt-get install mpg123</blockquote>
+                                    Add www-data to audio group
+                                    <blockquote>sudo usermod -a -G audio www-data</blockquote>
+                                    Restart
+                                    <blockquote>sudo shutdown -r now</blockquote>
+                                    <p>https://www.mpg123.de/</p>
+                                    <?php } ?>
+                                    
                                     
                                     
                                     

@@ -148,30 +148,18 @@
                                 <div class="content">
                                     <div class="head">
                                         <h5 class="mb-0">Media Player</h5>
-                                        <p class="text-muted">Raspberry Pi Media Player</p>
+                                        <p class="text-muted">MPG123</p>
                                     </div>
                                     <div class="canvas-wrapper">
-                                        <table class="table no-margin bg-lighter-grey">
-                                            <thead>
-                                                <tr>
-                                                    <th>
-                                                        <span class="icon-image2vector-1"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span> </span> OMX Player
-                                                    </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                
-                                            </tbody>
-                                        </table>
+                                        <div id="now_playing_idle" style="display: none;">
+                                            <div class="alert alert-primary" role="alert"><i class="fas fa-info"></i> Not playing any media Adhan.</div>
+                                            
+                                        </div>
+                                        
+                                        <div id="now_playing_adhan" style="display: none;">
+                                            <div class="alert alert-success" role="alert"><i class="fas fa-play"></i> <span class="now_playing_adhan_text"></span></div>
+                                            
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -179,71 +167,7 @@
                         
                         
                     </div>
-                    <?php $adhan_last_run = $this->adhan->get_last_run();  ?>
-                    <div class="row">
-                        <div class="col-sm-12 col-md-6 col-lg-6 mt-3">
-                            
-                            <div class="card">
-                                <div class="content">
-                                    <div class="head">
-                                        <h5 class="mb-0">Latest Adhan Record</h5>
-                                        <p class="text-muted">Trigger by system</p>
-                                    </div>
-                                    <div class="canvas-wrapper">
-                                        <table class="table no-margin bg-lighter-grey">
-                                            <thead class="success">
-                                                <tr>
-                                                    <th><?php echo ucwords(strtolower($info['last_run']['prayer_detail']['name'])) ?></th>
-                                                    <th class="text-right"><?php echo date("l, j F Y h:i A", $info['last_run']['prayer_detail']['unix_timestamp']); ?></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td><i class="teal fas fa-compass"></i> Zone</td>
-                                                    <td class="text-right"><?php echo $info['last_run']['prayer_detail']['jakim_zon'] ?></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><i class="blue fas fa-globe-asia"></i> Timezone</td>
-                                                    <td class="text-right"><?php echo $info['last_run']['prayer_detail']['timezone'] ?></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><i class="green fas fa-play-circle"></i> Media Status</td>
-                                                    <td class="text-right">
-                                                        <?php if($info['last_run']['prayer_detail']['media_detail']['status'] == 'found'){ ?>
-                                                        Media exists
-                                                        <?php }elseif($info['last_run']['prayer_detail']['media_detail']['status'] == 'not_found'){ ?>
-                                                        No media found
-                                                        <?php } ?>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td><i class="green fas fa-music"></i> Media Name</td>
-                                                    <td class="text-right">
-                                                        <?php if($info['last_run']['prayer_detail']['media_detail']['status'] == 'found'){ ?>
-                                                            <?php echo $info['last_run']['prayer_detail']['media_detail']['media_name']; ?>
-                                                        <?php }elseif($info['last_run']['prayer_detail']['media_detail']['status'] == 'not_found'){ ?>
-                                                            -
-                                                        <?php }else{ ?>
-                                                            -
-                                                        <?php } ?>
-                                                    </td>
-                                                </tr>
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            
-                        </div>
-                        
-                    </div>
+                    
                     
                     <div class="row">
                         <div class="col-md-12">
@@ -379,6 +303,8 @@
 
 <script type="text/javascript">
 $(function(){
+    doPoll();
+    
     $(".upload_media_adhan").on("change", function(){
         var adhan_media_name = $(this).parent().children('.adhan_media_name');
         $(adhan_media_name).text(this.files[0].name);
@@ -388,6 +314,26 @@ $(function(){
         start_upload(this.files, adhan_id);
     });
 });
+
+function doPoll(){
+    $.ajax({
+        url: "<?php echo site_url(); ?>/jakim/now_playing",
+        type: "GET",
+        dataType: "JSON",
+        success: function(data){
+            if(data.status == 'idle'){
+                $("#now_playing_idle").show();
+                $("#now_playing_adhan").hide();
+            } else if (data.status == 'playing'){
+                $(".now_playing_adhan_text").html(" Now playing <b>"+data.now_playing.media_adhan_info.adhan_media_name+"</b>");
+                $("#now_playing_adhan").show();
+                $("#now_playing_idle").hide();
+            }
+            setTimeout(doPoll,5000);
+        }
+    })
+    
+}
 
 function remove_media(adhan_id){
     $.ajax({

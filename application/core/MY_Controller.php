@@ -29,6 +29,7 @@ class MY_Controller extends CI_Controller {
         $error['missing_required_extension'] = array();
         $error['database_not_writable'] = array();
         $error['media_adhan_directory_not_writable'] = array();
+        $error['media_player_not_found'] = array();
         
         
         $missing_required_extension = array();
@@ -58,8 +59,17 @@ class MY_Controller extends CI_Controller {
             }
         }
         
+        //check for cmus player
+        $media_player_array = array('mpg123');
+        foreach($media_player_array as $a => $b){
+            $out_cms = shell_exec($b." 2>&1; echo $?");
+            if(strpos($out_cms, "not found") !== false){
+                $error['media_player_not_found'][] = $b;
+            } 
+        }
         
-        if((count($error['missing_required_extension']) > 0) || (count($error['database_not_writable']) > 0) || (count($error['media_adhan_directory_not_writable']))){
+        
+        if((count($error['missing_required_extension']) > 0) || (count($error['database_not_writable']) > 0) || (count($error['media_adhan_directory_not_writable'])) || (count($error['media_player_not_found']) > 0)){
             require_once(APPPATH.'views/errors/html/onload_check_modules.php');
             die();
         }

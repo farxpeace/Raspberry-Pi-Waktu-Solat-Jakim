@@ -23,8 +23,8 @@ class Cronjob extends MY_Controller {
         $output = array();
         $prayer_detail = array();
         //deduct 1 minute from current time
-        $current_dttm = date("Y-m-d H:i:s");
-        //$current_dttm = "2021-01-15 05:59:00";
+        //$current_dttm = date("Y-m-d H:i:s");
+        $current_dttm = "2021-01-05 05:45:00";
         $timestamp_current = strtotime($current_dttm);
         // Subtract time from datetime
         $time_subtract = $timestamp_current - (1 * 60);
@@ -83,7 +83,7 @@ class Cronjob extends MY_Controller {
             
             
             //update run_status to success
-            $this->adhan->update_prayer_time('solat_id', $prayer_detail['solat_id'], 'run_status', 'success');
+            //$this->adhan->update_prayer_time('solat_id', $prayer_detail['solat_id'], 'run_status', 'success');
 
             
             
@@ -112,8 +112,20 @@ class Cronjob extends MY_Controller {
             $output['prayer_detail'] = $prayer_detail;
             
             if($media_adhan_info['media_found'] == "yes"){
-                shell_exec("omxplayer --no-keys -o both ".$media_path." > /dev/null 2>/dev/null &");
+                //shell_exec("omxplayer --no-keys -o both ".$media_path." > /dev/null 2>/dev/null &");
+                //shell_exec("mpg123 ".$media_path." > /dev/null 2>/dev/null &");
+                //$media_path = "/var/www/html/assets/media/adhan/example.mp3";
+                
+                $now_playing = array();
+                $now_playing['media_adhan_info'] = $media_adhan_info;
+                $now_playing_json = json_encode($now_playing);
+                
+                $this->adhan->update_meta('now_playing', $now_playing_json);
+                //shell_exec("mpg123 --gain 100 ".$media_path." > /dev/null 2>/dev/null &");
+                $output_including_status = shell_exec("mpg123 --gain 100 ".$media_path." 2>&1; echo $?");
+                $this->adhan->update_meta('now_playing', NULL);
             }
+
             
             
             

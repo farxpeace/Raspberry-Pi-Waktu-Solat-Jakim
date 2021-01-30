@@ -25,6 +25,27 @@ class Jakim extends MY_Controller {
         $this->load->view('jakim/dashboard', $this->data);
 	}
     
+    function now_playing(){
+        $output = array();
+        
+        $now_playing_json = $this->adhan->get_meta_value('now_playing');
+        if(strlen($now_playing_json) > 5){
+            $now_playing_array = json_decode($now_playing_json, true);
+            
+            $output['status'] = "playing";
+            $output['now_playing'] = $now_playing_array;
+        }else{
+            $output['status'] = "idle";
+        }
+        
+        
+        
+        
+        
+        
+        echo json_encode($output);
+    }
+    
     function upload_mp3_for_adhan(){
         $postdata = $this->input->post('postdata');
         $error = array();
