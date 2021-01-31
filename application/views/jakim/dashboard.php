@@ -315,6 +315,7 @@ $(function(){
     });
 });
 
+var poll_time = 5000;
 function doPoll(){
     $.ajax({
         url: "<?php echo site_url(); ?>/jakim/now_playing",
@@ -325,11 +326,15 @@ function doPoll(){
                 $("#now_playing_idle").show();
                 $("#now_playing_adhan").hide();
             } else if (data.status == 'playing'){
+                poll_time = 10000;
                 $(".now_playing_adhan_text").html(" Now playing <b>"+data.now_playing.media_adhan_info.adhan_media_name+"</b>");
                 $("#now_playing_adhan").show();
                 $("#now_playing_idle").hide();
             }
-            setTimeout(doPoll,5000);
+            
+            
+            
+            setTimeout(doPoll,poll_time);
         }
     })
     
