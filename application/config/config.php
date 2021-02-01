@@ -526,3 +526,10 @@ $config['rewrite_short_tags'] = FALSE;
 | Array:		array('10.0.1.200', '192.168.5.0/24')
 */
 $config['proxy_ips'] = '';
+
+$config['ssh_username'] = 'pi';
+$config['ssh_password'] = 'gunungledang86';
+$config['ssh_host'] = 'localhost';
+$config['ssh_port'] = '22';
+
+$config['cron_minutely_prayer_time_command'] = '* * * * * wget -O - http://localhost/index.php/cronjob/minutely_check_for_prayer_time/ >/dev/null 2>&1';

@@ -1,16 +1,41 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-
+require_once APPPATH.'third_party/Ssh2_crontab_manager.php';
 class Adhan {
     private $CI;
     private $startTime;
+    private $Crontab;
+    private $cron_minutely_command;
     public function __construct(){
         $this->CI =& get_instance();
         
+        
     }
     
+    function connect_to_crontab(){
+        $this->Crontab = new Ssh2_crontab_manager($this->CI->config->item('ssh_host'), $this->CI->config->item('ssh_port'), $this->CI->config->item('ssh_username'), $this->CI->config->item('ssh_password'));
+    }
     
+    function is_cronjob_prayer_time_exists(){
+        $output = "no";
+        $cron_minutely_command = $this->CI->config->item('cron_minutely_prayer_time_command');
+        
+        $this->connect_to_crontab();
+        
+        $list_all_cron = $this->Crontab->list_all_cron();
+        //print_r($list_all_cron);
+        if(!in_array($cron_minutely_command, $list_all_cron)){
+            //create cronjob
+            $this->Crontab->append_cronjob($cron_minutely_command);
+            $output = 'yes';
+        }else{
+            $output = 'yes';
+        }
+        
+        return $output;
+    } 
     
+      
     function count_total_prayer_time(){
         
         $query = $this->CI->db->query("SELECT solat_id FROM prayer_time");

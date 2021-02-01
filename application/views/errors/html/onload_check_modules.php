@@ -143,6 +143,12 @@ blockquote {
                                 <blockquote>sudo service apache2 restart</blockquote>
                                 <?php } ?>
                                 
+                                <?php if($b == 'ssh2'){ ?>
+                                Install SSH2
+                                <blockquote>sudo apt-get install php-dev php-ssh2</blockquote>
+                                <blockquote>sudo service apache2 restart</blockquote>
+                                <?php } ?>
+                                
                                 
                                 
                             </div>
@@ -209,6 +215,8 @@ blockquote {
                                     <blockquote>sudo shutdown -r now</blockquote>
                                     <p>https://www.mpg123.de/</p>
                                     <?php } ?>
+                                    
+                                    
                                     
                                     
                                     

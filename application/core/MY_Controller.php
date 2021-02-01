@@ -33,7 +33,7 @@ class MY_Controller extends CI_Controller {
         
         
         $missing_required_extension = array();
-        $required = array("sqlite3", "pdo_sqlite", "mbstring");
+        $required = array("sqlite3", "pdo_sqlite", "mbstring", "ssh2");
         $installed_extension = get_loaded_extensions();
         foreach($required as $a => $b){
             if(!in_array($b, $installed_extension)){
@@ -47,7 +47,7 @@ class MY_Controller extends CI_Controller {
         $database_file_array = array(APPPATH."db".DIRECTORY_SEPARATOR,APPPATH."db".DIRECTORY_SEPARATOR."sqlite3_jakim");
         foreach($database_file_array as $a => $b){
             if (!is_writable($b)) {
-                $error['database_not_writable'][] = $b;
+                //$error['database_not_writable'][] = $b;
             }
         }
         
@@ -67,6 +67,8 @@ class MY_Controller extends CI_Controller {
                 $error['media_player_not_found'][] = $b;
             } 
         }
+        
+        
         
         
         if((count($error['missing_required_extension']) > 0) || (count($error['database_not_writable']) > 0) || (count($error['media_adhan_directory_not_writable'])) || (count($error['media_player_not_found']) > 0)){

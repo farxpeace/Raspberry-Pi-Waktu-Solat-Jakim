@@ -168,6 +168,32 @@
                         
                     </div>
                     
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6 col-lg-6 mt-3">
+                            <div class="card">
+                                <div class="content">
+                                    <div class="head">
+                                        <h5 class="mb-0">Cronjob</h5>
+                                        <p class="text-muted">Triggering Prayer Time</p>
+                                    </div>
+                                    <div class="canvas-wrapper">
+                                        <?php if($is_cronjob_prayer_time_exists == 'no'){ ?>
+                                            <div class="alert alert-danger">
+                                                <h5 class="alert-title"><i class="fas fa-exclamation-triangle"></i> Important</h5>
+                                                We could not found cronjob to trigger Prayer Time. Please configure it.
+                                            </div>
+                                        <?php }else{ ?>
+                                            
+                                            
+                                        
+                                        
+                                        <?php } ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
                     
                     <div class="row">
                         <div class="col-md-12">

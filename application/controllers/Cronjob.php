@@ -1,14 +1,41 @@
 <?php
 
-
+require_once APPPATH.'third_party/Ssh2_crontab_manager.php';
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Cronjob extends MY_Controller {
+    private $Crontab;
+    private $cron_minutely_command;
     function __construct(){
         parent::__construct();
         
        
+        $this->cron_minutely_command = $this->config->item('cron_minutely_prayer_time_command');
+    }
+    
+    function create_ssh_connection(){
+        $this->Crontab = new Ssh2_crontab_manager($this->config->item('ssh_host'), $this->config->item('ssh_port'), $this->config->item('ssh_username'), $this->config->item('ssh_password'));
         
+    }
+    
+    function create_cron_minutely(){
+        $this->create_ssh_connection();
+        $list_all_cron = $this->Crontab->list_all_cron();
+        if(!in_array($this->cron_minutely_command, $list_all_cron)){
+            $this->Crontab->append_cronjob($this->cron_minutely_command);
+        }
+        return true;
+        
+    }
+    function list_all_cron(){
+        $this->create_ssh_connection();
+        $list_all_cron = $this->Crontab->list_all_cron();
+    }
+    
+    
+    function remove_all_cronjob(){
+        $this->create_ssh_connection();
+        $this->Crontab->remove_cronjob($this->cron_minutely_command);
     }
     
 	public function index(){
@@ -18,13 +45,14 @@ class Cronjob extends MY_Controller {
         $this->load->view('jakim/dashboard', $this->data);
 	}
     
+    
     function minutely_check_for_prayer_time(){
         $error = array();
         $output = array();
         $prayer_detail = array();
         //deduct 1 minute from current time
-        //$current_dttm = date("Y-m-d H:i:s");
-        $current_dttm = "2021-01-05 05:45:00";
+        $current_dttm = date("Y-m-d H:i:s");
+        //$current_dttm = "2021-01-05 05:45:00";
         $timestamp_current = strtotime($current_dttm);
         // Subtract time from datetime
         $time_subtract = $timestamp_current - (1 * 60);
@@ -121,8 +149,8 @@ class Cronjob extends MY_Controller {
                 $now_playing_json = json_encode($now_playing);
                 
                 $this->adhan->update_meta('now_playing', $now_playing_json);
-                //shell_exec("mpg123 --gain 100 ".$media_path." > /dev/null 2>/dev/null &");
-                $output_including_status = shell_exec("mpg123 --gain 100 ".$media_path." 2>&1; echo $?");
+                shell_exec("mpg123 --gain 100 ".$media_path." > /dev/null 2>/dev/null &");
+                //$output_including_status = shell_exec("mpg123 --gain 100 ".$media_path." 2>&1; echo $?");
                 $this->adhan->update_meta('now_playing', NULL);
             }
 
@@ -148,7 +176,9 @@ class Cronjob extends MY_Controller {
             $output['error_message_single'] = current($error);
         }
         
-        echo "<pre>"; print_r($output); echo "</pre>";
+        
+        
+        //echo "<pre>"; print_r($output); echo "</pre>";
     }
     
     function sample_db(){
