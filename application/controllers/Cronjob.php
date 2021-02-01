@@ -47,12 +47,33 @@ class Cronjob extends MY_Controller {
     
     
     function minutely_check_for_prayer_time(){
+        //blink led blue
+        //$output_including_status = shell_exec("node /var/www/html/application/third_party/blink.js 2>&1; echo $?");
+        //print_r($output_including_status); exit();
+        //shell_exec("node /var/www/html/application/third_party/blink.js  > /dev/null 2>/dev/null &");
+        
+
+        
+        
+        //check cron status. If running, then skip
+        $cron_status = $this->adhan->get_meta_value('cron_status');
+        if($cron_status == 'running'){
+            
+            die();
+        }
+        
+        $this->adhan->update_meta('cron_status', 'running');
+        
+        
+        
+        
+        
         $error = array();
         $output = array();
         $prayer_detail = array();
         //deduct 1 minute from current time
-        $current_dttm = date("Y-m-d H:i:s");
-        //$current_dttm = "2021-01-05 05:45:00";
+        //$current_dttm = date("Y-m-d H:i:s");
+        $current_dttm = "2021-01-01 05:53:00";
         $timestamp_current = strtotime($current_dttm);
         // Subtract time from datetime
         $time_subtract = $timestamp_current - (1 * 60);
@@ -113,10 +134,6 @@ class Cronjob extends MY_Controller {
             //update run_status to success
             $this->adhan->update_prayer_time('solat_id', $prayer_detail['solat_id'], 'run_status', 'success');
 
-            
-            
-            
-            
             //play mp3
             //find mp3
             $media_detail = array();
@@ -149,9 +166,12 @@ class Cronjob extends MY_Controller {
                 $now_playing_json = json_encode($now_playing);
                 
                 $this->adhan->update_meta('now_playing', $now_playing_json);
-                shell_exec("mpg123 --gain 100 ".$media_path." > /dev/null 2>/dev/null &");
-                //$output_including_status = shell_exec("mpg123 --gain 100 ".$media_path." 2>&1; echo $?");
+                //shell_exec("mpg123 --gain 100 ".$media_path." > /dev/null 2>/dev/null &");
+                $output_including_status = shell_exec("mpg123 --gain 100 ".$media_path." 2>&1; echo $?");
+                //print_r($output_including_status);
                 $this->adhan->update_meta('now_playing', NULL);
+            }else{
+                
             }
 
             
@@ -179,6 +199,19 @@ class Cronjob extends MY_Controller {
         
         
         //echo "<pre>"; print_r($output); echo "</pre>";
+        $this->adhan->update_meta('cron_status', 'idle');
+        
+        //$this->start_dzikir();
+    }
+    
+    function start_dzikir(){
+        //check now playing
+        $now_playing = $this->adhan->get_meta_value('now_playing');
+        if(strlen($now_playing) < 3){
+            $media_folder = FCPATH.'assets'.DIRECTORY_SEPARATOR.'bacaan_dan_zikir'.DIRECTORY_SEPARATOR;
+            //shell_exec("mpg123 -Z --gain 100 ".$media_folder."*.mp3 > /dev/null 2>/dev/null &");
+        }
+        var_dump($now_playing); exit();
     }
     
     function sample_db(){
