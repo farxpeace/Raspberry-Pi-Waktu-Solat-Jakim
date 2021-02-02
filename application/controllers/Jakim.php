@@ -20,9 +20,7 @@ class Jakim extends MY_Controller {
         
         $selected_zone = $this->adhan->get_meta_value('selected_zone');
         $this->data['selected_zone'] = $selected_zone;
-        
-        $is_cronjob_prayer_time_exists = $this->adhan->is_cronjob_prayer_time_exists();
-        $this->data['is_cronjob_prayer_time_exists'] = $is_cronjob_prayer_time_exists;
+
         
         
 	   
