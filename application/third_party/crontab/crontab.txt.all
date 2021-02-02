@@ -1,2 +1,0 @@
-
-* * * * * wget -O - http://localhost/index.php/cronjob/minutely_check_for_prayer_time/ >/dev/null 2>&1

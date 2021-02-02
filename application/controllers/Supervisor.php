@@ -12,7 +12,7 @@ class Supervisor extends CI_Controller {
 	}
     
     function check_and_run_adhan(){
-        
+        $this->adhan->update_meta('supervisor_last_run_check_adhan', date("Y-m-d H:i:s"));
         $current_now_playing = $this->adhan->get_meta_value('now_playing');
         
         if(strlen($current_now_playing) > 5){
@@ -24,8 +24,8 @@ class Supervisor extends CI_Controller {
         $output = array();
         $prayer_detail = array();
         //deduct 1 minute from current time
-        //$current_dttm = date("Y-m-d H:i:s");
-        $current_dttm = "2021-01-02 13:08:00";
+        $current_dttm = date("Y-m-d H:i:s");
+        //$current_dttm = "2021-01-02 13:08:00";
         $timestamp_current = strtotime($current_dttm);
         // Subtract time from datetime
         $time_subtract = $timestamp_current - (1 * 60);
