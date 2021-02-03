@@ -1,6 +1,10 @@
 # Raspberry-Pi-Waktu-Solat-Jakim
 Memainkan azan melalui Raspberry Pi mengikut Waktu Solat Jakim secara offline
 
+#### Find Pi IP Address
+
+#### Install LAMP (Apache, Mysql and Apache)
+
 #### Install Supervisor
 
 /etc/supervisor/conf.d/prayer_time.conf
@@ -20,6 +24,18 @@ stderr_logfile_maxbytes=2MB
 stdout_logfile=/var/www/html/application/logs/prayer_time/%(program_name)s_stdo$
 stdout_logfile_maxbytes=2MB
 ```
+
+#### Download Code and put under /var/www/html/
+
+#### Import Database
+
+
+
+#### Open using another PC / Laptop / Handphone on SAME network
+
+
+
+#### ADVANCE - LED Status
 
 
 [Reference link](http://www.heidislab.com/tutorials/installing-php-7-1-on-raspbian-stretch-raspberry-pi-zero-w)
