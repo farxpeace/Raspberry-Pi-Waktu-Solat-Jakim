@@ -36,6 +36,14 @@ stdout_logfile_maxbytes=2MB
 
 
 #### ADVANCE - LED Status
+Install GPIO Library
+```
+sudo apt-get install python-rpi.gpio
+```
+
+Give permission 0775 to /var/www/html/application/third_party/python/
+and all files inside it.
+
 
 
 [Reference link](http://www.heidislab.com/tutorials/installing-php-7-1-on-raspbian-stretch-raspberry-pi-zero-w)
