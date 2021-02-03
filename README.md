@@ -48,6 +48,10 @@ sudo adduser www-data gpio
 
 Give permission 0775 to /var/www/html/application/third_party/python/
 and all files inside it.
+Restart apache in order to user www-data take effect
+```
+sudo service apache2 restart
+```
 
 
 
