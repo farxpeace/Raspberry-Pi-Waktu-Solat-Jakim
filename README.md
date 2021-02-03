@@ -41,6 +41,11 @@ Install GPIO Library
 sudo apt-get install python-rpi.gpio
 ```
 
+Add user www-data to group gpio
+```
+sudo adduser www-data gpio
+```
+
 Give permission 0775 to /var/www/html/application/third_party/python/
 and all files inside it.
 
