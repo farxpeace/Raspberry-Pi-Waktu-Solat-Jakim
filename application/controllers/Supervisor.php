@@ -11,7 +11,30 @@ class Supervisor extends CI_Controller {
 	   
 	}
     
+    function turn_on_led_daemon_prayer_time(){
+        shell_exec("python ".APPPATH."third_party/python/adhan_daemon_led_on.py > /dev/null 2>/dev/null &");
+    }
+    function turn_off_led_daemon_prayer_time(){
+        shell_exec("python ".APPPATH."third_party/python/adhan_daemon_led_off.py > /dev/null 2>/dev/null &");
+    }
+    function python_led_adhan_playing_media_led_on(){
+        shell_exec("python ".APPPATH."third_party/python/adhan_playing_media_led_on.py > /dev/null 2>/dev/null &");
+    }
+    function python_led_adhan_playing_media_led_off(){
+         //shell_exec("python ".APPPATH."third_party/python/adhan_playing_media_led_off.py > /dev/null 2>/dev/null &");
+         //shell_exec('python '.APPPATH.'third_party/python/adhan_playing_media_led_off.py');
+         //shell_exec('pkill -f "adhan_playing_media_led_on.py"');
+         //$output_including_status = shell_exec("python ".APPPATH."third_party/python/adhan_playing_media_led_off.py 2>&1; echo $?");
+         shell_exec("python ".APPPATH."third_party/python/adhan_playing_media_led_off.py > /dev/null 2>/dev/null &");
+         //var_dump($output_including_status);
+         
+    }
+    
     function check_and_run_adhan(){
+        //LED on
+        
+        $this->turn_on_led_daemon_prayer_time();
+        
         $this->adhan->update_meta('supervisor_last_run_check_adhan', date("Y-m-d H:i:s"));
         $current_now_playing = $this->adhan->get_meta_value('now_playing');
         
@@ -25,7 +48,7 @@ class Supervisor extends CI_Controller {
         $prayer_detail = array();
         //deduct 1 minute from current time
         $current_dttm = date("Y-m-d H:i:s");
-        //$current_dttm = "2021-01-02 13:08:00";
+        //$current_dttm = "2021-02-04 05:18:18";
         $timestamp_current = strtotime($current_dttm);
         // Subtract time from datetime
         $time_subtract = $timestamp_current - (1 * 60);
@@ -109,7 +132,7 @@ class Supervisor extends CI_Controller {
             
             
             $output['prayer_detail'] = $prayer_detail;
-            
+            $this->update_meta('found', "asdadasdsad");
             if($media_adhan_info['media_found'] == "yes"){
                 //shell_exec("omxplayer --no-keys -o both ".$media_path." > /dev/null 2>/dev/null &");
                 //shell_exec("mpg123 ".$media_path." > /dev/null 2>/dev/null &");
@@ -120,9 +143,21 @@ class Supervisor extends CI_Controller {
                 $now_playing['media_adhan_info'] = $media_adhan_info;
                 $now_playing_json = json_encode($now_playing);
                 
-                $this->adhan->update_meta('now_playing', $now_playing_json);
+                $this->adhan->update_meta('now_playing', json_encode($now_playing));
+                
+                
+                
                 //shell_exec("mpg123 --gain 100 ".$media_path." > /dev/null 2>/dev/null &");
-                $output_including_status = shell_exec("mpg123 --gain 100 ".$media_path." 2>&1; echo $?");
+                //shell_exec("mpg123 --gain 100 ".$media_path);
+                //$this->python_led_adhan_playing_media_led_on();
+                
+                
+                //$output_including_status = shell_exec("mpg123 --gain 100 ".$media_path." 2>&1; echo $?");
+                shell_exec("mpg123 --gain 100 ".$media_path);
+                
+                
+                //$this->python_led_adhan_playing_media_led_off();
+                
                 $output['mpg123'] = $output_including_status;
                 $this->adhan->update_meta('now_playing', NULL);
             }else{
@@ -146,14 +181,13 @@ class Supervisor extends CI_Controller {
             $output['errors'] = $error;
             $output['error_message_single'] = current($error);
         }
+        $this->turn_off_led_daemon_prayer_time();
         
-        $callback = function($value) { 
-            return implode("\t", $value); 
-        };
+        
         
         $log_date = date("Y-m-d H:i:s");
         echo "START - ".$log_date." ===============================================================".PHP_EOL;
-        echo implode("\n", array_map($callback, $output)).PHP_EOL;
+        //echo implode("\n", array_map($callback, $output)).PHP_EOL;
         echo "END - ".$log_date."  ================================================================".PHP_EOL.PHP_EOL;
        
         

@@ -33,7 +33,7 @@ class MY_Controller extends CI_Controller {
         
         
         $missing_required_extension = array();
-        $required = array("mbstring", "supervisor");
+        $required = array("mbstring");
         $installed_extension = get_loaded_extensions();
         foreach($required as $a => $b){
             if(!in_array($b, $installed_extension)){
