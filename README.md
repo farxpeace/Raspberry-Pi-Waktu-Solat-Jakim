@@ -1,6 +1,60 @@
 # Raspberry-Pi-Waktu-Solat-Jakim
 Memainkan azan melalui Raspberry Pi mengikut Waktu Solat Jakim secara offline
 
+#### Find Pi IP Address
+
+#### Install LAMP (Apache, Mysql and Apache)
+
+#### Install Supervisor
+
+/etc/supervisor/conf.d/prayer_time.conf
+```
+[program:prayer_time]
+command=curl -s http://localhost/index.php/supervisor/check_and_run_adhan/ > /d$
+directory=/var/www/html/application/logs/prayer_time
+autostart=true
+autorestart=true
+startretries=5
+user=pi
+numprocs=1
+startsecs=0
+process_name=%(program_name)s_%(process_num)02d
+stderr_logfile=/var/www/html/application/logs/prayer_time/%(program_name)s_stde$
+stderr_logfile_maxbytes=2MB
+stdout_logfile=/var/www/html/application/logs/prayer_time/%(program_name)s_stdo$
+stdout_logfile_maxbytes=2MB
+```
+
+#### Download Code and put under /var/www/html/
+
+#### Import Database
+
+
+
+#### Open using another PC / Laptop / Handphone on SAME network
+
+
+
+#### ADVANCE - LED Status
+Install GPIO Library
+```
+sudo apt-get install python-rpi.gpio
+```
+
+Add user www-data to group gpio
+```
+sudo adduser www-data gpio
+```
+
+Give permission 0775 to /var/www/html/application/third_party/python/
+and all files inside it.
+Restart apache in order to user www-data take effect
+```
+sudo service apache2 restart
+```
+
+
+
 [Reference link](http://www.heidislab.com/tutorials/installing-php-7-1-on-raspbian-stretch-raspberry-pi-zero-w)
 [php 7.2](https://getgrav.org/blog/raspberrypi-nginx-php7-dev)
 
@@ -85,19 +139,5 @@ Finally dont forget to restart apache
 ```
 sudo service apache2 restart
 ```
-
-
-#### Volume
-To set the master volume use:
-
-# Gets a list of simple mixer controls
-$ amixer scontrols 
-Then set it to the desired volume, as an example
-
-$ amixer sset 'Master' 50%
-Share
-
-Stop player
-shell_exec("pkill mpg123");
 
 
