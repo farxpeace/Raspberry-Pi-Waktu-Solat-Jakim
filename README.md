@@ -48,9 +48,19 @@ You should see message similar like this
 ```
 cd /var/www/html/
 ```
+Give permission to user pi
 ```
-wget -c https://api.github.com/repos/farxpeace/Raspberry-Pi-Waktu-Solat-Jakim/tarball -O - | tar -xz
+sudo chown -R pi:pi /var/www/html/
 ```
+Download and extract
+```
+wget -c https://api.github.com/repos/farxpeace/Raspberry-Pi-Waktu-Solat-Jakim/tarball -O Raspi-Offline-Jakim-Adhan.tar.gz && tar -xvzf  Raspi-Offline-Jakim-Adhan.tar.gz --strip-components=1 -C /var/www/html/
+```
+Move downloaded files into working directory
+```
+
+```
+
 
 #### Import Database
 
