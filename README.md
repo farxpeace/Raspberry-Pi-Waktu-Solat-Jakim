@@ -45,6 +45,12 @@ You should see message similar like this
 ![config](https://i.imgur.com/Wk1Kl5y.png)
 
 #### Download Code and put under /var/www/html/
+```
+cd /var/www/html/
+```
+```
+wget -c https://api.github.com/repos/farxpeace/Raspberry-Pi-Waktu-Solat-Jakim/tarball -O - | tar -xz
+```
 
 #### Import Database
 
