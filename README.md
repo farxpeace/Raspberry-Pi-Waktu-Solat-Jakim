@@ -1,9 +1,22 @@
 # Raspberry-Pi-Waktu-Solat-Jakim
 Memainkan azan melalui Raspberry Pi mengikut Waktu Solat Jakim secara offline
 
-#### Update dan Upgrade
+#### Update dan Upgrade system
 ```
-sudo apt-get update && sudo apt-get upgrade
+sudo apt-get update
+```
+```
+sudo apt-get upgrade -y
+```
+#### Install Apache2
+```
+sudo apt-get install apache2 -y
+```
+```
+sudo a2enmod rewrite
+```
+```
+sudo service apache2 restart
 ```
 
 #### Find Pi IP Address
