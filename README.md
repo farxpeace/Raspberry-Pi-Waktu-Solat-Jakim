@@ -23,6 +23,10 @@ sudo service apache2 restart
 ```
 sudo apt-get install php libapache2-mod-php -y
 ```
+##### Give working directory permission
+```
+sudo chmod -R 0775 /var/www/html/
+```
 
 #### Install MySQL (MariaDB)
 ```
@@ -42,6 +46,35 @@ Remove anonymous users? [Y/n] : Y
 Disallow root login remotely? [Y/n] : Y
 Remove test database and access to it? [Y/n] : Y
 Reload privilege tables now? [Y/n] : Y
+
+##### Edit my.cnf to allow bind address
+```
+sudo nano /etc/mysql/my.cnf
+```
+![config](https://i.imgur.com/fp8NoFl.png)
+
+
+Create new database. Named it "jakim"
+Log into mysql
+```
+sudo mysql
+```
+Create database jakim
+```
+CREATE DATABASE jakim;
+```
+![config](https://i.imgur.com/t9bRZcX.png)
+
+##### Import database
+```
+USE jakim;
+```
+![config](https://i.imgur.com/3gZJtK2.png)
+```
+SET autocommit=0 ; source /var/www/html/database.sql ; COMMIT ;
+```
+![config](https://i.imgur.com/Zjk74fk.png)
+
 
 
 
