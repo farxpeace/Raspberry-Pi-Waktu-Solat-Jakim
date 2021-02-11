@@ -24,9 +24,9 @@ sudo service apache2 restart
 sudo apt-get install php libapache2-mod-php -y
 ```
 
-#### Install MySQL
+#### Install MySQL (MariaDB)
 ```
-sudo apt-get install mysql-server php-mysql -y
+sudo apt install mariadb-server php-mysql -y
 ```
 ```
 sudo service apache2 restart
