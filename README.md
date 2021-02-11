@@ -41,6 +41,7 @@ ifconfig
 ```
 http://192.168.50.160/
 ```
+You should see message similar like this
 ![config](https://i.imgur.com/Wk1Kl5y.png)
 
 #### Download Code and put under /var/www/html/
