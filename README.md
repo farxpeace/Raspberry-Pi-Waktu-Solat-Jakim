@@ -41,6 +41,8 @@ ifconfig
 ```
 http://192.168.50.160/
 ```
+![config](https://i.imgur.com/Wk1Kl5y.png)
+
 
 #### Install LAMP (Apache, Mysql and Apache)
 
