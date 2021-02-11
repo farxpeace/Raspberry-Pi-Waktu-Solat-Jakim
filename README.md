@@ -58,7 +58,7 @@ sudo nano /etc/mysql/my.cnf
 Create new database. Named it "jakim"
 Log into mysql
 ```
-sudo mariadb
+ mariadb -u root -p
 ```
 Create database jakim
 ```
