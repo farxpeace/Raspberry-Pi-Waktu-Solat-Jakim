@@ -37,6 +37,11 @@ sudo service apache2 restart
 ifconfig
 ```
 
+#### Test open using another machine
+```
+http://192.168.50.160/
+```
+
 #### Install LAMP (Apache, Mysql and Apache)
 
 #### Install Supervisor
