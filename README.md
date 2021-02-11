@@ -43,8 +43,9 @@ http://192.168.50.160/
 ```
 ![config](https://i.imgur.com/Wk1Kl5y.png)
 
+#### Download Code and put under /var/www/html/
 
-#### Install LAMP (Apache, Mysql and Apache)
+#### Import Database
 
 #### Install Supervisor
 
@@ -66,9 +67,7 @@ stdout_logfile=/var/www/html/application/logs/prayer_time/%(program_name)s_stdo$
 stdout_logfile_maxbytes=2MB
 ```
 
-#### Download Code and put under /var/www/html/
 
-#### Import Database
 
 
 
