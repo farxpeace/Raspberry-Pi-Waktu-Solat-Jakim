@@ -19,14 +19,6 @@ sudo a2enmod rewrite
 sudo service apache2 restart
 ```
 
-#### Add www-data user to pi group
-```
-sudo usermod -a -G pi www-data
-```
-```
-sudo service apache2 restart
-```
-
 #### Install PHP
 ```
 sudo apt-get install php libapache2-mod-php -y
@@ -39,9 +31,26 @@ sudo apt install mariadb-server php-mysql -y
 ```
 sudo service apache2 restart
 ```
-Change default password for root
+Run secure installation
 ```
-sudo mysql -u root -p
+mysql_secure_installation
+```
+![config](https://i.imgur.com/VLfDOEv.png)
+
+Set root password : recommended to set it to "raspberry"
+Remove anonymous users? [Y/n] : Y
+Disallow root login remotely? [Y/n] : Y
+Remove test database and access to it? [Y/n] : Y
+Reload privilege tables now? [Y/n] : Y
+
+
+
+#### Add www-data user to pi and sudo group
+```
+sudo usermod -a -G pi,sudo www-data
+```
+```
+sudo service apache2 restart
 ```
 
 #### Find Pi IP Address
