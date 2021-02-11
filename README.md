@@ -19,6 +19,19 @@ sudo a2enmod rewrite
 sudo service apache2 restart
 ```
 
+#### Install PHP
+```
+sudo apt-get install php libapache2-mod-php -y
+```
+
+#### Install MySQL
+```
+sudo apt-get install mysql-server php-mysql -y
+```
+```
+sudo service apache2 restart
+```
+
 #### Find Pi IP Address
 ```
 ifconfig
