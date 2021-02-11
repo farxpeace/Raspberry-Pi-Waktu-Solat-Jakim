@@ -54,16 +54,26 @@ sudo nano /etc/mysql/my.cnf
 ![config](https://i.imgur.com/fp8NoFl.png)
 
 
+
 Create new database. Named it "jakim"
 Log into mysql
 ```
-sudo mysql
+sudo mariadb
 ```
 Create database jakim
 ```
 CREATE DATABASE jakim;
 ```
 ![config](https://i.imgur.com/t9bRZcX.png)
+
+We will be creating a new account called admin with the same capabilities as the root account, but configured for password authentication. To do this, open up the MariaDB prompt from your terminal:
+```
+sudo mariadb
+```
+Now, we can create a new user with root privileges and password-based access. Change the username and password to match your preferences:
+```
+GRANT ALL ON *.* TO 'root'@'localhost' IDENTIFIED BY 'raspberry' WITH GRANT OPTION;
+```
 
 ##### Import database
 ```
