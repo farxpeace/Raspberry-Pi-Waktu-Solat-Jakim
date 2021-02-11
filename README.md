@@ -19,6 +19,14 @@ sudo a2enmod rewrite
 sudo service apache2 restart
 ```
 
+#### Add www-data user to pi group
+```
+sudo usermod -a -G pi www-data
+```
+```
+sudo service apache2 restart
+```
+
 #### Install PHP
 ```
 sudo apt-get install php libapache2-mod-php -y
@@ -30,6 +38,10 @@ sudo apt install mariadb-server php-mysql -y
 ```
 ```
 sudo service apache2 restart
+```
+Change default password for root
+```
+sudo mysql -u root -p
 ```
 
 #### Find Pi IP Address
@@ -56,17 +68,25 @@ Download and extract
 ```
 wget -c https://api.github.com/repos/farxpeace/Raspberry-Pi-Waktu-Solat-Jakim/tarball -O Raspi-Offline-Jakim-Adhan.tar.gz && tar -xvzf  Raspi-Offline-Jakim-Adhan.tar.gz --strip-components=1 -C /var/www/html/
 ```
-Move downloaded files into working directory
-```
-
-```
 
 
 #### Import Database
+On another PC, open http://IP_ADDRESS/adminer.php (http://192.168.50.160/adminer.php)
 
 #### Install Supervisor
+```
+sudo apt-get install supervisor
+```
+Restart Supervisor
+```
+sudo service supervisor restart
+```
 
-/etc/supervisor/conf.d/prayer_time.conf
+Create new configuration file for Supervisor
+```
+sudo nano /etc/supervisor/conf.d/prayer_time.conf
+```
+Copy these code into prayer_time.conf . Make sure all the path are correct.
 ```
 [program:prayer_time]
 command=curl -s http://localhost/index.php/supervisor/check_and_run_adhan/ > /d$
